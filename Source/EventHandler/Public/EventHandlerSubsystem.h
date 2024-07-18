@@ -7,7 +7,9 @@
 
 #include "EventHandlerSubsystem.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEventFired,FGameplayTag,EventID,UGenericEventPayload*, OptionalPayload);
+class UACEventBroadcaster;
+class ARPCBroadcaster;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEventFired, FGameplayTag, EventID, UGenericEventPayload*, OptionalPayload);
 
 class UGenericEventPayload;
 /**
@@ -20,8 +22,11 @@ class UEventHandlerSubsystem : public UGameInstanceSubsystem
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void BroadcastEvent(FGameplayTag EventID,UGenericEventPayload* OptionalPayload);
+	void BroadcastEventLocal(const FGameplayTag EventID,UGenericEventPayload* OptionalPayload);
 
+	UFUNCTION(BlueprintCallable)
+	void BroadcastEventToServer(const FGameplayTag EventID);
+	
 	UFUNCTION(BlueprintCallable)
 	void ClearSavedEvents();
 
@@ -32,4 +37,5 @@ public:
 	FGameplayTagContainer SavedEvents;
 
 private:
+	APlayerController* GetLocaPlayerController(UWorld* WorldContext);
 };

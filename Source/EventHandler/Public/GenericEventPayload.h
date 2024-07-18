@@ -13,4 +13,6 @@ UCLASS(Blueprintable,BlueprintType)
 class EVENTHANDLER_API UGenericEventPayload : public UObject
 {
 	GENERATED_BODY()
+
+	
 };
